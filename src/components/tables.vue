@@ -36,8 +36,6 @@
 
 <script>
 
-  import {updateTBDropdownDisplay} from '../vuex/actions';
-
   export default {
     data () {
       return {
@@ -48,20 +46,18 @@
         top: 0
       }
     },
-    vuex: {
-      getters: {
-        disabled: function (state) {
-          return state.toolBtns.table1.disabled;
-        },
-        display: function (state) {
-          return state.toolBtns.table1.showmenu;
-        }
+    computed: {
+      disabled () {
+        return this.$store.state.toolBtns.table1.disabled;
       },
-      actions: {
-        updateTBDropdownDisplay
+      display () {
+        return this.$store.state.toolBtns.table1.showmenu;
       }
     },
     methods: {
+      updateTBDropdownDisplay (current) {
+        this.$store.dispatch('updateTBDropdownDisplay', current);
+      }
       toggle () {
         if(!this.disabled){
           let obj = this.$el.nextElementSibling || this.$el.nextSibling;

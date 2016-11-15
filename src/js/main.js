@@ -1,3 +1,5 @@
+
+import Vue from "vue";
 import app from "../components/app.vue";
 
 function Vueditor(el) {
@@ -6,5 +8,3 @@ function Vueditor(el) {
 }
 
 export default Vueditor;
-
-window.Vueditor = Vueditor;

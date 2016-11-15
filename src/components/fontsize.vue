@@ -32,8 +32,6 @@
 
   let fontSize = [12, 14, 16, 18, 20, 24, 28, 32, 36];
 
-  import {updateTBDropdownDisplay} from '../vuex/actions';
-
   export default {
     data () {
       return {
@@ -43,20 +41,18 @@
         top: 0
       }
     },
-    vuex: {
-      getters: {
-        disabled: function (state) {
-          return state.toolBtns.fontSize.disabled;
-        },
-        display: function (state) {
-          return state.toolBtns.fontSize.showmenu;
-        }
+    computed: {
+      disabled () {
+        return this.$store.state.toolBtns.fontSize.disabled;
       },
-      actions: {
-        updateTBDropdownDisplay
+      display () {
+        return this.$store.state.toolBtns.fontSize.showmenu;
       }
     },
     methods: {
+      updateTBDropdownDisplay (current) {
+        this.$store.dispatch('updateTBDropdownDisplay', current);
+      }
       toggle () {
         if(!this.disabled){
           let obj = this.$el.nextElementSibling || this.$el.nextSibling;

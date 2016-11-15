@@ -24,9 +24,6 @@
 </style>
 
 <template>
-  <a href="javascript:;" class="ve-select font-select" :class="{'ve-disabled': disabled}" @click="toggle">
-    <span>{{val || fonts[0].abbr}}</span><i :class="{'triangle-down': !display, 'triangle-up': display}"></i>
-  </a>
   <div class="ve-toolbar-dropdown ve-select-dropdown font-name" v-show="display" :style="{left: left + 'px', top: top + 'px'}">
     <ul>
       <li v-for="font in fonts" @click="clickHandler(font)">
@@ -44,8 +41,6 @@
     {name: "Courier New"}
   ];
 
-  import {updateTBDropdownDisplay} from '../vuex/actions';
-
   export default {
     data(){
       return {
@@ -55,20 +50,18 @@
         top: 0
       }
     },
-    vuex: {
-      getters: {
-        disabled: function (state) {
-          return state.toolBtns.fontName.disabled;
-        },
-        display: function (state) {
-          return state.toolBtns.fontName.showmenu;
-        }
+    computed: {
+      disabled () {
+        return this.$store.state.toolBtns.fontName.disabled;
       },
-      actions: {
-        updateTBDropdownDisplay
+      display () {
+        return this.$store.state.toolBtns.fontName.showmenu;
       }
     },
     methods: {
+      updateTBDropdownDisplay (current) {
+        this.$store.dispatch('updateTBDropdownDisplay', current);
+      }
       toggle () {
         if(!this.disabled){
           let obj = this.$el.nextElementSibling || this.$el.nextSibling;

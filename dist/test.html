@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="test">
+        {{text}}
+        <template v-for="item in config">
+            <a v-if="item == 'divider' || item == '|'" href="javascript:;">
+                fuck
+            </a>
+            <a v-if="json[item] && json[item].type === undefined" href="javascript:;" :asdf="json[item].title">
+                this{{json[item].title}}
+            </a>
+            <a v-if="json[item] && json[item].type === 'select'" href="javascript:;" :class="[json[item].className]">
+                shit
+            </a>
+        </template>
+    </div>
+    
+    <script type="text/javascript" src="../node_modules/vue/dist/vue.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#test',
+            data: {
+                text: '123',
+                config: ['divider', 'undo', 'font'],
+                json: {
+                    undo: {title: 'undo'},
+                    font: {type: 'select', className: 'font'}
+                }
+            }
+        });
+    </script>
+</body>
+</html>

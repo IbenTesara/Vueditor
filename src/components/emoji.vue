@@ -17,9 +17,6 @@
 </style>
 
 <template>
-    <a href="javascript:;" title="插入表情" :class="{'ve-disabled': disabled, 've-active': display}" @click="toggle">
-        <i class="fa fa-smile-o"></i>
-    </a>
     <div class="ve-popover emoji-popover" v-show="display" :style="{left: left + 'px', top: top + 'px'}">
         <div class="pop-arrow"></div>
         <div class="pop-header">插入表情</div>
@@ -35,8 +32,6 @@
 
 <script>
 
-    import {updateTBDropdownDisplay} from '../vuex/actions';
-
     export default {
         data () {
             return {
@@ -50,20 +45,18 @@
                 top: 0
             }
         },
-        vuex: {
-            getters: {
-                disabled: function (state) {
-                    return state.toolBtns.emoji.disabled;
-                },
-                display: function (state) {
-                    return state.toolBtns.emoji.showmenu;
-                }
+        computed: {
+            disabled () {
+                return this.$store.state.toolBtns.emoji.disabled;
             },
-            actions: {
-                updateTBDropdownDisplay
+            display () {
+                return this.$store.state.toolBtns.emoji.showmenu;
             }
         },
         methods: {
+            updateTBDropdownDisplay (current) {
+                this.$store.dispatch('updateTBDropdownDisplay', current);
+            },
             toggle () {
                 if(!this.disabled){
                     let obj = this.$el.nextElementSibling || this.$el.nextSibling;

@@ -16,17 +16,12 @@
 </style>
 
 <template>
-  <a href="javascript:;" class="ve-select" :class="{'ve-disabled': disabled}" @click="toggle">
-    <span>{{val || arr[0]}}</span><i :class="{'triangle-down': !display, 'triangle-up': display}"></i>
-  </a>
   <div class="ve-toolbar-dropdown ve-select-dropdown format-block" @click="selectItem" v-show="display" :style="{left: left + 'px', top: top + 'px'}">
     <a href="javascript:;" v-for="item in arr">{{item}}</a>
   </div>
 </template>
 
 <script>
-
-  import {updateTBDropdownDisplay} from '../vuex/actions';
 
   export default {
     data(){
@@ -37,20 +32,18 @@
         top: 0
       }
     },
-    vuex: {
-      getters: {
-        disabled: function (state) {
-          return state.toolBtns.elements.disabled;
-        },
-        display: function (state) {
-          return state.toolBtns.elements.showmenu;
-        }
+    computed: {
+      disabled () {
+        return this.$store.state.toolBtns.elements.disabled;
       },
-      actions: {
-        updateTBDropdownDisplay
+      display () {
+        return this.$store.state.toolBtns.elements.showmenu;
       }
     },
     methods: {
+      updateTBDropdownDisplay (current) {
+        this.$store.dispatch('updateTBDropdownDisplay', current);
+      }
       toggle () {
         if(!this.disabled){
           // https://vuejs.org.cn/api/#vm-el

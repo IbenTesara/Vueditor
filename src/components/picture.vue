@@ -26,8 +26,6 @@
 
 <script>
 
-    import {updateTBDropdownDisplay} from '../vuex/actions';
-
     export default {
         data () {
             return {
@@ -35,20 +33,18 @@
                 ctnH: window.innerHeight
             }
         },
-        vuex: {
-            getters: {
-                disabled: function (state) {
-                    return state.toolBtns.picture.disabled;
-                },
-                display: function (state) {
-                    return state.toolBtns.picture.showmenu;
-                }
+        computed: {
+            disabled () {
+                return this.$store.state.toolBtns.picture.disabled;
             },
-            actions: {
-                updateTBDropdownDisplay
+            display () {
+                return this.$store.state.toolBtns.picture.showmenu;
             }
         },
         methods: {
+            updateTBDropdownDisplay (current) {
+                this.$store.dispatch('updateTBDropdownDisplay', current);
+            },
             toggle () {
                 if(!this.disabled){
                     this.updateTBDropdownDisplay('picture');

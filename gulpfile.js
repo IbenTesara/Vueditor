@@ -1,6 +1,3 @@
-/**
- * Created by wboll on 2016/6/2.
- */
 
 const gulp = require('gulp'),
   del = require('del'),
@@ -48,13 +45,13 @@ gulp.task('copyImages', () => {
 gulp.task('webpack', () => {
   webpack(webpackConfig, (err) => {
     if(err)throw err;
-    gulp.src('./build/*.css')
+    gulp.src(['./build/style.css', './build/components.css'])
       .pipe(concat('vueditor.min.css'))
       .pipe(cleanCSS())
       .pipe(gulp.dest('./dist/css/'));
     gulp.src(['./build/es6.js', './build/vueditor.js'])
       .pipe(concat('vueditor.min.js'))
-      .pipe(uglify())
+      //.pipe(uglify())
       .pipe(gulp.dest('./dist/js/'));
   });
 });
@@ -74,7 +71,7 @@ gulp.task('sprite', ['webpack'], () => {
 });
 
 gulp.task('clean', ['webpack'], () => {
-  del(['./build/'], {force: true});    //TODO clean task not working
+  //setTimeout(() => del(['./build/**'], {force: true}).then(paths => console.log('success:', paths), err => console.log('errMsg:',err)), 200);
 });
 
 gulp.task('browserSync', () => {

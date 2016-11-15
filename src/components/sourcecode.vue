@@ -35,37 +35,40 @@
         }
     };
 
+    import {js_beautify as beautify} from 'js-beautify';
+
     import {updateContent} from '../vuex/actions';
 
     export default {
+        name: 'sourceCode',
         data () {
           return {
             editor: null
           }
         },
-        vuex: {
-          getters: {
-              currentView: function(state) {
-                  return state.currentView;
-              },
-              content: function(state) {
-                  return state.content;
-              }
-          },
-          actions: {
-              updateContent
+        computed: {
+            currentView: function() {
+                return this.$store.state.currentView;
+            },
+            content: function(state) {
+                return this.$store.state.content;
+            }
+        },
+        methods: {
+          updateContent (content) {
+            this.$store.dispatch('updateContent', content);
           }
         },
         watch: {
           'currentView': function () {
-              this.editor.setValue(beautifyHTML(this.content, {'indent_inner_html': true, 'indent_size': 2}));
+              this.editor.setValue(beautify(this.content, {'indent_inner_html': true, 'indent_size': 2}));
               this.editor.refresh();
               setTimeout(function () {
                   this.editor.refresh();
               }.bind(this), 100);
           }
         },
-        ready () {
+        mounted () {
             this.editor = CodeMirror.fromTextArea(document.getElementById('codemirror'), cmConfig);
             this.editor.on('blur', function () {
                 this.updateContent(this.editor.getValue());

@@ -20,11 +20,7 @@
 </style>
 
 <template>
-  <a href="javascript:;" title="{{param.colorType == 'foreColor' ? '文字颜色' : '背景颜色'}}"
-     :class="{'ve-active': toolBtns[this.param.colorType].showmenu, 've-disabled': toolBtns[this.param.colorType].disabled}" @click="toggle">
-    <i class="fa" :class="{'fa-file-text': param.colorType == 'backColor', 'fa-file-text-o': param.colorType == 'foreColor'}"></i>
-  </a>
-  <div class="ve-toolbar-dropdown colorpicker" v-show="toolBtns[this.param.colorType].showmenu" :style="{left: left + 'px', top: top + 'px'}">
+  <div class="ve-toolbar-dropdown colorpicker" v-show="toolBtns.foreColor.showmenu || toolBtns.backColor.showmenu" :style="{left: left + 'px', top: top + 'px'}">
     <div class="ve-input-box">
       <input type="text" class="ve-input" placeholder="颜色代码" v-model="color">
       <button type="button" class="ve-btn" @click="inputHandler">确定</button>
@@ -37,10 +33,6 @@
 
 <script>
 
-  /*'#E53333', '#E56600', '#FF9900', '#64451D', '#DFC5A4', '#FFE500', '#009900', '#006600', '#99BB00', '#B8D100',
-   '#60D978', '#337FE5', '#003399', '#4C33E5', '#9933E5', '#CC33E5', '#EE33EE', '#00D5FF', '#FFFFFF', '#CCCCCC',
-   '#999999', '#666666', '#333333', '#000000'*/
-
   var colors = [
       '#000000', '#424242', '#636363', '#9C9C94', '#CEC6CE', '#EFEFEF', '#F7F7F7', '#FFFFFF',
       '#FF0000', '#FF9C00', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#9C00FF', '#FF00FF',
@@ -52,8 +44,6 @@
       '#630000', '#7B3900', '#846300', '#295218', '#083139', '#003163', '#21104A', '#4A1031'
   ];
 
-  import {updateTBDropdownDisplay} from '../vuex/actions';
-
   export default {
     data () {
       return {
@@ -64,23 +54,22 @@
       }
     },
     props: ['param'],
-    vuex: {
-      getters: {
-        toolBtns: function (state) {
-          return state.toolBtns;
-        }
-      },
-      actions: {
-        updateTBDropdownDisplay
+    computed: {
+      toolBtns () {
+        return this.$store.state.toolBtns;
       }
     },
     methods: {
+
+      updateTBDropdownDisplay (current) {
+        this.$store.dispatch('updateTBDropdownDisplay', current);
+      },
+
       toggle () {
         if(!this.toolBtns[this.param.colorType].disabled){
           let obj = this.$el.nextElementSibling || this.$el.nextSibling;
           this.left = obj.offsetLeft;
           this.top = obj.offsetTop + (obj.offsetHeight + parseInt(getComputedStyle(obj).marginBottom));
-          //this.display = !this.display;
           this.updateTBDropdownDisplay(this.param.colorType);
         }
       },

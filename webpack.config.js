@@ -1,6 +1,3 @@
-/**
- * Created by wboll on 2016/5/26.
- */
 
 const path = require('path');
 const autoprefixer = require('autoprefixer');
@@ -18,15 +15,18 @@ module.exports = {
   output: {
     publicPath: '',
     path: path.join(__dirname, './build'),
-    filename: '[name].js'
+    filename: '[name].js',
+    // export itself to a global var
+    libraryTarget: "umd",
+    // name of the global var
+    library: "Vueditor"
   },
 
   module: {
     loaders: [
       { test: /\.vue$/, loader: 'vue' },
       { test: /\.js$/, loader: 'babel', exclude: /node_modules/ },
-      { test: /\.css$/, loader: 'style!css!postcss' },
-      { test: /\.less$/, loader: common.extract('style-loader', 'css!less') },
+      { test: /\.(less|css)$/, loader: common.extract('style-loader', 'css!less!postcss') },
       { test: /\.(png|jpg|gif)$/, loader: 'url-loader?limit=8192' }
     ]
   },
@@ -49,6 +49,12 @@ module.exports = {
   plugins: [
     components,
     common
-  ]
+  ],
+
+  externals: {
+    'toolbarConfig': 'toolbarConfig',
+    'vue': 'Vue',
+    'vuex': 'Vuex'
+  }
 
 };

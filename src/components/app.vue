@@ -1,44 +1,40 @@
 <template>
     <div class="vueditor">
-        <toolbar v-ref:toolbar></toolbar>
-        <design v-ref:design></design>
-        <code1 v-ref:code></code1>
+        <toolbar></toolbar>
+        <design></design>
+        <sourceCode></sourceCode>
     </div>
 </template>
 
 <script>
-    // 取名为code 和 sourcecode 渲染不出来?
+
     import toolbar from './toolbar.vue';
     import design from './design.vue';
-    import code1 from './code.vue';
+    import sourceCode from './sourcecode.vue';
+
+    console.log(toolbar);
+
     import store from '../vuex/store';
-    import {updateContent} from '../vuex/actions';
 
     export default {
         el: '',
         store,
-        vuex: {
-            // todo 根节点这样有没有问题?
-            getters: {
-                content: function(state) {
-                    return state.content;
-                }
-            },
-            actions: {
-                updateContent
+        computed: {
+            content () {
+                return this.$store.state.content;
             }
         },
         components: {
             toolbar,
             design,
-            code1
+            sourceCode
         },
         methods: {
             getContent () {
                 return this.content;
             },
             setContent (content) {
-                this.updateContent(content);
+                this.$store.dispatch('updateContent', content);
             }
         }
     }

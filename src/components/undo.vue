@@ -10,7 +10,7 @@
 
 <script>
 
-    import {updateContent, updateTBDisabled} from '../vuex/actions';
+    import {mapStates} from 'vuex';
 
     export default {
         data () {
@@ -19,31 +19,24 @@
                 index: -1
             };
         },
-        vuex: {
-            getters: {
-                undoState: function (state) {
-                    return state.toolBtns.undo.disabled;
-                },
-                redoState: function (state) {
-                    return state.toolBtns.redo.disabled;
-                },
-                currentView: function(state) {
-                    return state.currentView;
-                },
-                content: function (state) {
-                    return state.content;
-                }
+        computed: Object.assign({}, mapStates({
+            undoState () {
+                return this.$store.state.toolBtns.undo.disabled;
             },
-            actions: {
-                updateContent,
-                updateTBDisabled
+            redoState () {
+                return this.$store.state.toolBtns.redo.disabled;
+            },
+            currentView () {
+                return this.$store.state.currentView;
+            },
+            content () {
+                return this.$store.state.content;
             }
-        },
-        computed: {
-            canUndo: function () {
+        }),{
+            canUndo () {
                 return this.index > 0;
             },
-            canRedo: function () {
+            canRedo () {
                 return this.index < this.stack.length - 1;
             }
         },
@@ -60,6 +53,12 @@
             }
         },
         methods: {
+            updateContent (content) {
+                this.$store.dispatch('updateContent', content);
+            }
+            updateTBDisabled (current) {
+                this.$store.dispatch('updateTBDisabled', current);
+            }
             undo () {
                 if (!this.canUndo)return;
                 this.index--;

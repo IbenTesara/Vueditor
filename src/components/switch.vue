@@ -7,7 +7,7 @@
 
 <script>
 
-  import {switchView, updateTBDisabled, updateTBDropdownDisplay} from '../vuex/actions';
+  import {mapActions} from 'vuex';
 
   export default {
     data(){
@@ -15,14 +15,12 @@
         editor: null
       }
     },
-    vuex: {
-      actions: {
-        switchView,
-        updateTBDisabled,
-        updateTBDropdownDisplay
-      }
-    },
-    methods: {
+    
+    methods: Object.assign({}, mapActions({
+      'switchView',
+      'updateTBDisabled',
+      'updateTBDropdownDisplay'
+    }),{
       clickHandler () {
         this.switchView();
         this.updateTBDisabled();

@@ -15,15 +15,13 @@ var toolbarConfig = [
 ];
 ```
 
-2.add the following stylesheets and scripts to you page, remember to add width and height to the container.
+2.add the following stylesheets and scripts to you page, then set width and height to the container.
 ```
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Vueditor</title>
-  <!--codemirror-pkg.min.css, codemirror-pkg.min.js and beautify-html.min.js is only neccessy when you need to switch to the source code,-->
-  <!--don't add "view" to your toolbarConfig if not-->
   <link rel="stylesheet" type="text/css" href="../dist/plugins/codemirror/codemirror-pkg.min.css">
   <link rel="stylesheet" type="text/css" href="../dist/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="../dist/css/vueditor.min.css">

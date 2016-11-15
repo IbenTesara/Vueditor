@@ -25,7 +25,7 @@
 
 <script>
 
-    import {updateTBDropdownDisplay} from '../vuex/actions';
+    import {mapStates} from 'vuex';
 
     export default {
         data () {
@@ -37,23 +37,21 @@
                 linkVal: ''
             }
         },
-        vuex: {
-            getters: {
-                linkState: function (state) {
-                    return state.toolBtns.link.disabled;
-                },
-                unLinkState: function (state) {
-                    return state.toolBtns.unlink.disabled;
-                },
-                display: function (state) {
-                    return state.toolBtns.link.showmenu;
-                }
+        computed: mapStates({
+            linkState () {
+                return this.$store.state.toolBtns.link.disabled;
             },
-            actions: {
-                updateTBDropdownDisplay
+            unLinkState () {
+                return this.$store.state.toolBtns.unlink.disabled;
+            },
+            display () {
+                return this.$store.state.toolBtns.link.showmenu;
             }
-        },
+        }),
         methods: {
+            updateTBDropdownDisplay (current) {
+                this.$store.dispatch('updateTBDropdownDisplay', current);
+            },
             toggle () {
                 var valid = this.$root.$refs.design.rangeValid();
                 if (!valid) {

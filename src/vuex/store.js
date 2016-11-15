@@ -1,21 +1,22 @@
 
 import mutations from './mutations';
-//import {toolbarConfig} from '../js/config';
+import * as actions from './actions';
+import Vue from 'vue';
+import Vuex from 'vuex';
+import toolbarConfig from 'toolbarConfig';
 
-let toolBtns = {};
-toolbarConfig.push('redo');
-toolbarConfig.push('unlink');
+let toolbarStates = {};
 toolbarConfig.forEach(function (name) {
-    !toolBtns[name] && (toolBtns[name] = {});
-    toolBtns[name].active = false;
-    toolBtns[name].disabled = false;
-    toolBtns[name].showmenu = false;
+    !toolbarStates[name] && (toolbarStates[name] = {});
+    toolbarStates[name].active = false;
+    toolbarStates[name].disabled = false;
+    toolbarStates[name].showmenu = false;
 });
 
 const state = {
 
     // toolbar disabled state & active state
-    toolBtns: toolBtns,
+    toolbarStates: toolbarStates,
     
     // editor content
     content: '',
@@ -25,7 +26,10 @@ const state = {
     
 };
 
+// Vue.use(Vuex);
+
 export default new Vuex.Store({
     state,
-    mutations
+    mutations,
+    actions
 });

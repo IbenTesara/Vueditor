@@ -1,4 +1,3 @@
-
 <style lang="less" rel="stylesheet/less">
     .ve-design {
         border: 1px solid #ddd;
@@ -14,9 +13,10 @@
 
 <script>
 
-    import {updateContent, updateTBActive, updateTBDropdownDisplay} from '../vuex/actions';
+    import {mapActions} from 'vuex';
 
     export default {
+        name: 'design',
         data () {
             return {
                 iframeEle: null,
@@ -29,19 +29,12 @@
             }
         },
 
-        vuex: {
-            getters: {
-                currentView: function(state) {
-                    return state.currentView;
-                },
-                content: function(state) {
-                    return state.content;
-                }
+        computed: {
+            currentView: function() {
+                return this.$store.state.currentView;
             },
-            actions: {
-                updateContent,
-                updateTBActive,
-                updateTBDropdownDisplay
+            content: function() {
+                return this.$store.state.content;
             }
         },
 
@@ -61,7 +54,11 @@
             }
         },
 
-        methods: {
+        methods: Object.assign({}, mapActions([
+                'updateContent',
+                'updateTBActive',
+                'updateTBDropdownDisplay'
+            ]), {
 
             init (event) {
                 this.iframeEle = event.target;
@@ -295,7 +292,7 @@
                 return (range && !range.collapsed);
             }
 
-        }
+        })
     }
 
 </script>
